@@ -1,5 +1,5 @@
 #!/bin/bash
-# Box-shape study (author request, 19 Oct 2026): catch success versus parcel size and shape, rigid nominal hand,
+# Box-shape study: catch success versus parcel size and shape, rigid nominal hand,
 # teacher and student (dagger_v1, trained on 8-10 cm parcels), the same 300 test throws for every shape
 # (seeds 500000-500299; sides fixed with box_dims_m, all other throw parameters unchanged, mass 0.10-0.40 kg).
 # Usage: bash runs/box_study.sh [procs]

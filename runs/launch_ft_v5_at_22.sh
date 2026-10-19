@@ -1,5 +1,5 @@
 #!/bin/bash
-# Night variant (author: full CPU at night): waits until 22:00, then PPO fine-tuning with a higher learning rate
+# Night variant: waits until 22:00, then PPO fine-tuning with a higher learning rate
 # and slightly more exploration, 9 environments next to ft_v4 (12), deadline 07:30.
 cd "$(dirname "$0")/.."
 while [ "$(date +%H%M)" -lt 2200 ]; do sleep 60; done

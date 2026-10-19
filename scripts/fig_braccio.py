@@ -1,4 +1,4 @@
-"""Fig. 2 (author request, 19 Oct 2026): geometry of one arm and the closing sequence, Italian and English.
+"""Fig. 2: geometry of one arm and the closing sequence, Italian and English.
 
 (a) anatomy of one arm drawn to scale from catch/config.py: rigid phalanges on the spine, closing tendon at 7 mm from
     the spine and anchored at the tip, bevels that encode the joint stops (20 deg at the root, 3 x 30 deg at the

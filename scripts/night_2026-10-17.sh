@@ -1,5 +1,5 @@
 #!/bin/bash
-# Night batch of 17-18 Oct 2026 (author: full CPU at night). Runs sequentially with P processes.
+# Night batch of 17-18 Oct 2026. Runs sequentially with P processes.
 cd "$(dirname "$0")/.."
 P=${1:-20}
 log() { echo "$(date +%H:%M) $*"; }

@@ -1,5 +1,5 @@
-"""Photos of the printed hand prototype for the end of the ERF2027 paper (author request, 19 Oct 2026: real setup,
-images of the real setup). A photo and a video frame of 12 Oct 2026 (source files not distributed; set PHOTO_DIR),
+"""Photos of the printed hand prototype for the end of the ERF2027 paper. A photo and a video frame of
+12 Oct 2026 (source files not distributed; set PHOTO_DIR),
 cropped without faces, lettering or the date stamp of the camera. A manifest records paths, hashes and crops.
 Usage: .venv/bin/python scripts/fig_prototipo.py
 """
@@ -22,7 +22,7 @@ PHOTOS = [
     ("braccio_blu_singolo_piegato_2026-10-12.jpeg", (180, 330, 950, 1560), [], None),
     ("braccio_singolo_chiusura_tendine_2026-10-12.mp4", (110, 30, 390, 470), [], 10.0),
 ]
-# 19 Oct 2026, author: of the first selection only the single straight arm was approved; the second panel is a frame
+# Of the first selection only the single straight arm was approved; the second panel is a frame
 # of the video of the same arm closed by pulling the tendon (cropped to the arm: no face, no shirt lettering).
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 7, "pdf.fonttype": 42})
 

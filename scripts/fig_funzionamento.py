@@ -1,4 +1,4 @@
-"""Fig. 1 (author requests, 19 Oct 2026): how the catch works, Italian and English. The arm drawing is in
+"""Fig. 1: how the catch works, Italian and English. The arm drawing is in
 scripts/fig_braccio.py (Fig. 2).
 
 (a) wide view of the simulated scene at release; (b)-(e) close-ups that follow the palm during a catch by
