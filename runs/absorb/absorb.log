@@ -1,0 +1,16 @@
+== absorb 0.0
+success 293/300 | not triggered 0 | inside but failed 7 | triggered never inside 0 | touched UR 0
+max contact force on success: median 124 N, p90 199 N
+parcel acceleration on success: median 35.6 g, p90 40.9 g | palm acceleration: median 61 m/s2, p90 92 m/s2
+== absorb 0.2
+success 290/300 | not triggered 0 | inside but failed 10 | triggered never inside 0 | touched UR 0
+max contact force on success: median 106 N, p90 168 N
+parcel acceleration on success: median 25.3 g, p90 35.0 g | palm acceleration: median 72 m/s2, p90 92 m/s2
+== absorb 0.4
+success 287/300 | not triggered 0 | inside but failed 13 | triggered never inside 0 | touched UR 0
+max contact force on success: median 103 N, p90 166 N
+parcel acceleration on success: median 26.4 g, p90 34.0 g | palm acceleration: median 79 m/s2, p90 92 m/s2
+== absorb 0.6
+success 284/300 | not triggered 0 | inside but failed 16 | triggered never inside 0 | touched UR 0
+max contact force on success: median 100 N, p90 163 N
+parcel acceleration on success: median 26.7 g, p90 34.1 g | palm acceleration: median 79 m/s2, p90 92 m/s2

@@ -1,0 +1,5 @@
+{"steps": 0, "time": "18:17:20", "final": false, "success": 0.72, "median_force_ok": 159.73043218928905, "p90_force_ok": 263.63964928600274, "best": true}
+{"steps": 500004, "time": "18:20:18", "final": false, "success": 0.63, "median_force_ok": 169.10493443231812, "p90_force_ok": 298.45520923355167}
+{"steps": 1000008, "time": "18:23:14", "final": false, "success": 0.465, "median_force_ok": 147.97691361832463, "p90_force_ok": 286.7824893453569}
+{"steps": 1500000, "time": "18:26:09", "final": false, "success": 0.14, "median_force_ok": 97.89935176308191, "p90_force_ok": 273.90830891450264}
+{"steps": 2000004, "time": "18:29:00", "final": false, "success": 0.015, "median_force_ok": 47.92583210375961, "p90_force_ok": 68.67927601311077}

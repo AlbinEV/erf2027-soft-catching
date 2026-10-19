@@ -1,0 +1,51 @@
+[aim006] teacher                success  472/500 (94.4 %, 95 % CI 92.0-96.1) dropped 22 touched UR 0 force median 115.16983334002634 p90 173.74813602502826
+[aim006] classical              success  445/500 (89.0 %, 95 % CI 86.0-91.5) dropped 51 touched UR 72 force median 109.9247987160138 p90 175.18977102703263
+[aim006] dagger_v1              success  487/500 (97.4 %, 95 % CI 95.6-98.5) dropped 8 touched UR 0 force median 119.66870708930922 p90 179.76723043055173
+[aim006] wall 1.8 min
+[aim018] teacher                success  466/500 (93.2 %, 95 % CI 90.6-95.1) dropped 28 touched UR 2 force median 103.5464923340448 p90 166.9786239278414
+[aim018] classical              success  430/500 (86.0 %, 95 % CI 82.7-88.8) dropped 63 touched UR 49 force median 101.98682588649461 p90 162.235165818654
+[aim018] dagger_v1              success  465/500 (93.0 %, 95 % CI 90.4-94.9) dropped 30 touched UR 4 force median 107.36126202617564 p90 166.80706526752107
+[aim018] wall 1.7 min
+scripts/run_sweeps.sh: line 24: unexpected EOF while looking for matching `"'
+[aim006] already done
+[aim018] already done
+[aim024] teacher                success  425/500 (85.0 %, 95 % CI 81.6-87.9) dropped 68 touched UR 3 force median 94.33384190195892 p90 158.96708892870492
+[aim024] classical              success  397/500 (79.4 %, 95 % CI 75.6-82.7) dropped 98 touched UR 36 force median 98.81427204268755 p90 160.5981849277349
+[aim024] dagger_v1              success  413/500 (82.6 %, 95 % CI 79.0-85.7) dropped 78 touched UR 3 force median 102.00025360791317 p90 163.85428668309123
+[aim024] wall 0.7 min
+[camnoise010] teacher                success  481/500 (96.2 %, 95 % CI 94.1-97.6) dropped 15 touched UR 0 force median 109.44990583275474 p90 169.96178789600242
+[camnoise010] classical              success  397/500 (79.4 %, 95 % CI 75.6-82.7) dropped 94 touched UR 77 force median 102.60650981793356 p90 166.90191383325762
+[camnoise010] dagger_v1              success  488/500 (97.6 %, 95 % CI 95.9-98.6) dropped 8 touched UR 0 force median 115.58051492431935 p90 175.83273869694614
+[camnoise010] wall 0.7 min
+[camnoise020] teacher                success  481/500 (96.2 %, 95 % CI 94.1-97.6) dropped 15 touched UR 0 force median 109.44990583275474 p90 169.96178789600242
+[camnoise020] classical              success  347/500 (69.4 %, 95 % CI 65.2-73.3) dropped 144 touched UR 77 force median 94.46168459255203 p90 158.64776960201138
+[camnoise020] dagger_v1              success  474/500 (94.8 %, 95 % CI 92.5-96.4) dropped 19 touched UR 0 force median 110.07456302791698 p90 171.06897894857613
+[camnoise020] wall 0.7 min
+[latency066] teacher                success  481/500 (96.2 %, 95 % CI 94.1-97.6) dropped 15 touched UR 0 force median 109.44990583275474 p90 169.96178789600242
+[latency066] classical              success  435/500 (87.0 %, 95 % CI 83.8-89.7) dropped 59 touched UR 57 force median 108.33025782583384 p90 168.1880060240305
+[latency066] dagger_v1              success  487/500 (97.4 %, 95 % CI 95.6-98.5) dropped 9 touched UR 0 force median 114.4890281972416 p90 175.84361982914254
+[latency066] wall 0.7 min
+[latency100] teacher                success  481/500 (96.2 %, 95 % CI 94.1-97.6) dropped 15 touched UR 0 force median 109.44990583275474 p90 169.96178789600242
+[latency100] classical              success  436/500 (87.2 %, 95 % CI 84.0-89.8) dropped 61 touched UR 53 force median 107.409065700702 p90 166.08986424328157
+[latency100] dagger_v1              success  482/500 (96.4 %, 95 % CI 94.4-97.7) dropped 12 touched UR 0 force median 111.11627868447096 p90 176.41064253293737
+[latency100] wall 0.7 min
+[camrate30] teacher                success  481/500 (96.2 %, 95 % CI 94.1-97.6) dropped 15 touched UR 0 force median 109.44990583275474 p90 169.96178789600242
+[camrate30] classical              success  476/500 (95.2 %, 95 % CI 93.0-96.8) dropped 21 touched UR 26 force median 112.69611158308271 p90 171.4929455322011
+[camrate30] dagger_v1              success  491/500 (98.2 %, 95 % CI 96.6-99.1) dropped 6 touched UR 0 force median 114.20802404858094 p90 174.413457249368
+[camrate30] wall 0.7 min
+[small_parcels] teacher                success  308/500 (61.6 %, 95 % CI 57.3-65.8) dropped 188 touched UR 0 force median 103.49147553313949 p90 159.7459672252484
+[small_parcels] classical              success  355/500 (71.0 %, 95 % CI 66.9-74.8) dropped 141 touched UR 49 force median 105.8986948369717 p90 163.89405942186102
+[small_parcels] dagger_v1              success  334/500 (66.8 %, 95 % CI 62.6-70.8) dropped 163 touched UR 0 force median 106.83059030730715 p90 164.53177284092172
+[small_parcels] wall 0.7 min
+[heavy_parcels] teacher                success  283/500 (56.6 %, 95 % CI 52.2-60.9) dropped 179 touched UR 0 force median 228.22736011695142 p90 320.4052442795818
+[heavy_parcels] classical              success  284/500 (56.8 %, 95 % CI 52.4-61.1) dropped 180 touched UR 57 force median 224.00301146115373 p90 308.5203130551361
+[heavy_parcels] dagger_v1              success  327/500 (65.4 %, 95 % CI 61.1-69.4) dropped 147 touched UR 0 force median 241.20672692526705 p90 331.05068906027964
+[heavy_parcels] wall 0.7 min
+[spin15] teacher                success  479/500 (95.8 %, 95 % CI 93.7-97.2) dropped 14 touched UR 0 force median 107.25484101456941 p90 175.5694830980424
+[spin15] classical              success  443/500 (88.6 %, 95 % CI 85.5-91.1) dropped 46 touched UR 58 force median 102.07519575628592 p90 174.94090705739555
+[spin15] dagger_v1              success  490/500 (98.0 %, 95 % CI 96.4-98.9) dropped 7 touched UR 0 force median 108.65654343707112 p90 180.02237098416447
+[spin15] wall 0.7 min
+[fast_throws] teacher                success  434/500 (86.8 %, 95 % CI 83.6-89.5) dropped 42 touched UR 0 force median 99.41264114913491 p90 167.59311294896085
+[fast_throws] classical              success  437/500 (87.4 %, 95 % CI 84.2-90.0) dropped 47 touched UR 9 force median 111.22417029213985 p90 188.48741049055698
+[fast_throws] dagger_v1              success  433/500 (86.6 %, 95 % CI 83.3-89.3) dropped 47 touched UR 2 force median 109.15640536103953 p90 177.48697688550675
+[fast_throws] wall 0.7 min

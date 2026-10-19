@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+third_party/
+MUJOCO_LOG.TXT
+runs/**/tb/
+runs/**/dataset.npz

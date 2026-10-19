@@ -1,0 +1,16 @@
+{
+ "init": "dagger_v1",
+ "name": "ft_v1",
+ "envs": 10,
+ "steps": 50000000,
+ "warmup": 100000,
+ "lr": 3e-05,
+ "eval_every": 250000,
+ "eval_episodes": 100,
+ "deadline": "07:30",
+ "seed": 0,
+ "reward_overrides": {
+  "force": 0.01
+ },
+ "target_kl": 0.01
+}

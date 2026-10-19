@@ -1,0 +1,11 @@
+{
+ "name": "dagger_s2",
+ "procs": 13,
+ "teacher_episodes": 600,
+ "episodes": 300,
+ "iters": 12,
+ "epochs": 15,
+ "seed": 2,
+ "randomize": "{}",
+ "overrides": "{}"
+}

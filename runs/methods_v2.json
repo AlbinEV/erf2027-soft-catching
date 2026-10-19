@@ -1,0 +1,6 @@
+[["fixed:{\"ratio\":0.45,\"absorb\":0.4,\"brake_time\":0.0,\"turn_gain\":0.0,\"motor_hold\":1.0}", "regola nominale", "nominal rule"],
+ ["fixed:{\"ratio\":0.65,\"absorb\":0.4,\"brake_time\":0.4,\"turn_gain\":4.0,\"motor_hold\":1.0}", "migliore regola fissa", "best fixed rule"],
+ ["adaptive:{\"ratio\":0.55,\"absorb\":0.4,\"brake_time\":0.4,\"turn_gain\":4.0,\"motor_hold\":1.0}", "regola adattiva (encoder)", "adaptive rule (encoder)"],
+ ["rl:hi2_cam", "RL: telecamera", "RL: camera"],
+ ["rl:hi2_cse", "RL: + dimensione, encoder", "RL: + size, encoder"],
+ ["rl:hi2_all", "RL: + forza al polso", "RL: + wrist force"]]

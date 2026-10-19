@@ -1,0 +1,26 @@
+[
+ {
+  "path": "braccio_blu_singolo_piegato_2026-10-12.jpeg",
+  "sha256": "efcd13cebf01953c5b713ae51b761f917396c81771559c2c321a3bdb59f769ba",
+  "crop": [
+   180,
+   330,
+   950,
+   1560
+  ],
+  "blurred": [],
+  "video_time_s": null
+ },
+ {
+  "path": "braccio_singolo_chiusura_tendine_2026-10-12.mp4",
+  "sha256": "de6da1a24373f96dd3889a8dbdd929aa886849ed4942523f0f9bd03cd9f936b0",
+  "crop": [
+   110,
+   30,
+   390,
+   470
+  ],
+  "blurred": [],
+  "video_time_s": 10.0
+ }
+]

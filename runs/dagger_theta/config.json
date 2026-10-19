@@ -1,0 +1,12 @@
+{
+ "name": "dagger_theta",
+ "procs": 13,
+ "teacher_episodes": 1000,
+ "episodes": 500,
+ "iters": 14,
+ "epochs": 15,
+ "seed": 0,
+ "randomize": "{}",
+ "overrides": "{}",
+ "teacher": "{}"
+}

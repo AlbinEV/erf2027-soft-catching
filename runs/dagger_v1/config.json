@@ -1,0 +1,8 @@
+{
+ "name": "dagger_v1",
+ "procs": 13,
+ "teacher_episodes": 600,
+ "episodes": 300,
+ "iters": 12,
+ "epochs": 15
+}

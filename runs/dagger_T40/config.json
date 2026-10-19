@@ -1,0 +1,12 @@
+{
+ "name": "dagger_T40",
+ "procs": 20,
+ "teacher_episodes": 600,
+ "episodes": 300,
+ "iters": 12,
+ "epochs": 15,
+ "seed": 0,
+ "randomize": "{}",
+ "overrides": "{\"t_max_n\": 40.0, \"box_mass_kg\": [0.1, 0.8]}",
+ "teacher": "{\"turn_up\": true}"
+}

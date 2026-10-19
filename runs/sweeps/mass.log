@@ -1,0 +1,6 @@
+[T 20] success 737/1000 | not triggered 0 | inside but failed 263 | triggered never inside 0 | touched UR 0
+[T 20] max contact force on success: median 157 N, p90 269 N
+[T 40] success 852/1000 | not triggered 0 | inside but failed 148 | triggered never inside 0 | touched UR 0
+[T 40] max contact force on success: median 169 N, p90 279 N
+[T 80] success 892/1000 | not triggered 0 | inside but failed 108 | triggered never inside 0 | touched UR 0
+[T 80] max contact force on success: median 178 N, p90 295 N

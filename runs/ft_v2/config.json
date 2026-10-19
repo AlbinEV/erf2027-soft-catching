@@ -1,0 +1,16 @@
+{
+ "init": "dagger_dr",
+ "name": "ft_v2",
+ "envs": 12,
+ "steps": 50000000,
+ "warmup": 100000,
+ "lr": 1e-05,
+ "eval_every": 500000,
+ "eval_episodes": 200,
+ "deadline": "07:30",
+ "seed": 0,
+ "reward": "{}",
+ "overrides": "{\"box_mass_kg\": [0.1, 0.8], \"flight_s\": [0.4, 0.8]}",
+ "randomize": "{\"aim_noise_m\": [0.06, 0.24], \"cam_noise_m\": [0.005, 0.02], \"cam_latency_s\": [0.033, 0.1], \"cam_rate_hz\": [30, 60], \"spin_max\": [0, 15]}",
+ "target_kl": 0.01
+}

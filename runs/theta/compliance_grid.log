@@ -1,0 +1,72 @@
+== cg_w0.15_pc8_wc20
+success 200/200 UR 85
+max contact force on success: median 20 N, p90 42 N
+parcel acceleration on success: median 11.3 g, p90 15.7 g | palm acceleration: median 126 m/s2, p90 164 m/s2
+== cg_w0.15_pc8_wc40
+success 200/200 UR 3
+max contact force on success: median 21 N, p90 46 N
+parcel acceleration on success: median 12.3 g, p90 16.2 g | palm acceleration: median 123 m/s2, p90 161 m/s2
+== cg_w0.15_pc8_wc80
+success 200/200 UR 0
+max contact force on success: median 23 N, p90 50 N
+parcel acceleration on success: median 13.6 g, p90 17.3 g | palm acceleration: median 119 m/s2, p90 157 m/s2
+== cg_w0.15_pc20_wc20
+success 200/200 UR 61
+max contact force on success: median 24 N, p90 38 N
+parcel acceleration on success: median 13.1 g, p90 18.2 g | palm acceleration: median 126 m/s2, p90 164 m/s2
+== cg_w0.15_pc20_wc40
+success 199/200 UR 2
+max contact force on success: median 24 N, p90 38 N
+parcel acceleration on success: median 13.8 g, p90 18.5 g | palm acceleration: median 124 m/s2, p90 162 m/s2
+== cg_w0.15_pc20_wc80
+success 199/200 UR 0
+max contact force on success: median 25 N, p90 38 N
+parcel acceleration on success: median 14.3 g, p90 19.2 g | palm acceleration: median 120 m/s2, p90 157 m/s2
+== cg_w0.15_pc40_wc20
+success 199/200 UR 17
+max contact force on success: median 27 N, p90 43 N
+parcel acceleration on success: median 15.2 g, p90 20.7 g | palm acceleration: median 127 m/s2, p90 164 m/s2
+== cg_w0.15_pc40_wc40
+success 199/200 UR 0
+max contact force on success: median 28 N, p90 44 N
+parcel acceleration on success: median 16.0 g, p90 21.3 g | palm acceleration: median 124 m/s2, p90 162 m/s2
+== cg_w0.15_pc40_wc80
+success 199/200 UR 0
+max contact force on success: median 29 N, p90 46 N
+parcel acceleration on success: median 16.9 g, p90 22.3 g | palm acceleration: median 120 m/s2, p90 158 m/s2
+== cg_w0.25_pc8_wc20
+success 200/200 UR 85
+max contact force on success: median 20 N, p90 42 N
+parcel acceleration on success: median 11.3 g, p90 15.7 g | palm acceleration: median 126 m/s2, p90 164 m/s2
+== cg_w0.25_pc8_wc40
+success 200/200 UR 3
+max contact force on success: median 21 N, p90 46 N
+parcel acceleration on success: median 12.3 g, p90 16.2 g | palm acceleration: median 123 m/s2, p90 161 m/s2
+== cg_w0.25_pc8_wc80
+success 200/200 UR 0
+max contact force on success: median 23 N, p90 50 N
+parcel acceleration on success: median 13.6 g, p90 17.3 g | palm acceleration: median 119 m/s2, p90 157 m/s2
+== cg_w0.25_pc20_wc20
+success 200/200 UR 61
+max contact force on success: median 24 N, p90 38 N
+parcel acceleration on success: median 13.1 g, p90 18.2 g | palm acceleration: median 126 m/s2, p90 164 m/s2
+== cg_w0.25_pc20_wc40
+success 199/200 UR 2
+max contact force on success: median 24 N, p90 38 N
+parcel acceleration on success: median 13.8 g, p90 18.5 g | palm acceleration: median 124 m/s2, p90 162 m/s2
+== cg_w0.25_pc20_wc80
+success 199/200 UR 0
+max contact force on success: median 25 N, p90 38 N
+parcel acceleration on success: median 14.3 g, p90 19.2 g | palm acceleration: median 120 m/s2, p90 157 m/s2
+== cg_w0.25_pc40_wc20
+success 199/200 UR 17
+max contact force on success: median 27 N, p90 43 N
+parcel acceleration on success: median 15.2 g, p90 20.7 g | palm acceleration: median 127 m/s2, p90 164 m/s2
+== cg_w0.25_pc40_wc40
+success 199/200 UR 0
+max contact force on success: median 28 N, p90 44 N
+parcel acceleration on success: median 16.0 g, p90 21.3 g | palm acceleration: median 124 m/s2, p90 162 m/s2
+== cg_w0.25_pc40_wc80
+success 199/200 UR 0
+max contact force on success: median 29 N, p90 46 N
+parcel acceleration on success: median 16.9 g, p90 22.3 g | palm acceleration: median 120 m/s2, p90 158 m/s2

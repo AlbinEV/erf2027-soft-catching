@@ -1,0 +1,12 @@
+{
+ "name": "dagger_theta2",
+ "procs": 21,
+ "teacher_episodes": 2000,
+ "episodes": 1000,
+ "iters": 16,
+ "epochs": 15,
+ "seed": 0,
+ "randomize": "{\"close_speed_mps\": [0.12, 0.25], \"aim_noise_m\": [0.06, 0.2]}",
+ "overrides": "{\"box_mass_kg\": [0.1, 0.8], \"flight_s\": [0.45, 0.8]}",
+ "teacher": "{}"
+}

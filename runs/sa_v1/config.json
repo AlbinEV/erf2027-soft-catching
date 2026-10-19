@@ -1,0 +1,8 @@
+{
+ "name": "sa_v1",
+ "envs": 8,
+ "steps": 3000000,
+ "eval_every": 200000,
+ "kw": "{}",
+ "seed": 0
+}

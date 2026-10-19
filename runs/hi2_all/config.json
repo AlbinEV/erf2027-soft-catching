@@ -1,0 +1,40 @@
+{
+ "name": "hi2_all",
+ "sensors": "size,encoder,ft",
+ "two_step": true,
+ "envs": 6,
+ "steps": 100000,
+ "eval_every": 10000,
+ "student": "dagger_theta2",
+ "overrides": "{\"box_mass_kg\": [0.1, 0.8], \"flight_s\": [0.45, 0.8]}",
+ "randomize": "{\"close_speed_mps\": [0.12, 0.25], \"aim_noise_m\": [0.06, 0.2]}",
+ "seed": 0,
+ "ranges": {
+  "ratio": [
+   0.35,
+   0.95
+  ],
+  "absorb": [
+   0.0,
+   0.6
+  ],
+  "brake_time": [
+   0.0,
+   0.6
+  ],
+  "turn_gain": [
+   0.0,
+   8.0
+  ],
+  "motor_hold": [
+   0.5,
+   1.0
+  ]
+ },
+ "weights": {
+  "acc_g": 0.01,
+  "force": 0.0025,
+  "tcp": 0.001,
+  "drop": 0.5
+ }
+}
