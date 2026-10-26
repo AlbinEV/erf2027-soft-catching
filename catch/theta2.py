@@ -5,9 +5,12 @@ rule, so a slower motor needs a larger ratio), absorb (fraction of the parcel ve
 After the first contact: brake_time (palm to rest), turn_gain (palm-up turn, 0 = off), motor_hold (motor command
 once closed). The low-level student is conditioned on u; the high-level policy may change the post-contact part.
 """
+import os
+
 import numpy as np
 
-RANGES = dict(ratio=(0.35, 0.95), absorb=(0.0, 0.6), brake_time=(0.0, 0.6), turn_gain=(0.0, 8.0),
+# CATCH_RATIO_MAX widens the closing-ratio range for the degraded-actuation study (19 Oct); default 0.95
+RANGES = dict(ratio=(0.35, float(os.environ.get("CATCH_RATIO_MAX", "0.95"))), absorb=(0.0, 0.6), brake_time=(0.0, 0.6), turn_gain=(0.0, 8.0),
               motor_hold=(0.5, 1.0))
 NAMES = tuple(RANGES)
 PRE, POST = (0, 1), (2, 3, 4)

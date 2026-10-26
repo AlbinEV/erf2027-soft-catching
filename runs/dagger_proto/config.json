@@ -1,0 +1,12 @@
+{
+ "name": "dagger_proto",
+ "procs": 12,
+ "teacher_episodes": 600,
+ "episodes": 300,
+ "iters": 12,
+ "epochs": 15,
+ "seed": 0,
+ "randomize": "{}",
+ "overrides": "{\"outward_limit_deg\": 0, \"pad_stroke_m\": 0.05, \"housing_m\": 0.10, \"pad_c\": 40, \"wrist_stroke_m\": 0.10, \"wrist_c\": 80, \"wrist_k\": 150}",
+ "teacher": "{}"
+}

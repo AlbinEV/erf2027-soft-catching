@@ -8,6 +8,7 @@ Usage: nice -n 19 .venv/bin/python scripts/eval_high2.py --methods 'fixed:{...}'
 """
 import argparse
 import json
+import os
 import sys
 import time
 from multiprocessing import Pool
@@ -24,7 +25,7 @@ _CACHE = {}
 def _policy_and_kw(method):
     import train_high2 as T
     kind, _, arg = method.partition(":")
-    kw = dict(student_run="dagger_theta2", sensors=(), two_step=False)
+    kw = dict(student_run=os.environ.get("CATCH_EXECUTOR", "dagger_theta2"), sensors=(), two_step=False)
     if kind == "fixed":
         return T.fixed_policy(**json.loads(arg)), kw
     if kind == "adaptive":

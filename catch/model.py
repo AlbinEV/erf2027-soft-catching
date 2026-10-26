@@ -87,14 +87,15 @@ def hand_xml(p: Params):
     b.append('</body>')
     tendons = ['<tendon>']
     for a in range(p.n_arms):
-        tendons.append(f'  <fixed name="cable{a}" range="0 {p.cable_slack_m}" '
+        tendons.append(f'  <fixed name="cable{a}" range="{-p.cable_stretch_m:.6g} {p.cable_slack_m:.6g}" '
                        f'solreflimit="{-p.series_stiffness:.6g} {-p.series_damping:.6g}">')
         for j in range(len(pitch)):
             tendons.append(f'    <joint joint="a{a}_j{j}" coef="{p.guide_m:.6g}"/>')
         tendons.append('    <joint joint="motor" coef="-1"/>')
         tendons.append('  </fixed>')
     tendons.append('</tendon>')
-    actuator = f'<motor name="hand_motor" joint="motor" gear="{p.n_arms * p.t_max_n:.6g}" ctrlrange="-1 1"/>'
+    actuator = (f'<motor name="hand_motor" joint="motor" gear="{p.n_arms * p.t_max_n * p.motor_force_scale:.6g}" '
+                'ctrlrange="-1 1"/>')
     if p.semi_active and p.pad_stroke_m > 0:
         actuator += f'\n    <damper name="pad_damper" joint="pad" kv="1" ctrlrange="0 {p.pad_c_max:.6g}"/>'
     if p.semi_active and p.wrist_stroke_m > 0:
@@ -202,12 +203,20 @@ class CatchModel:
         """Change motor tension and speed at run time (gear, motor damping, spine stiffness with the same Pi)."""
         m, p = self.model, self.p
         p.t_max_n, p.close_speed_mps = float(t_max_n), float(close_speed_mps)
-        m.actuator_gear[self.motor_act, 0] = p.n_arms * p.t_max_n
+        m.actuator_gear[self.motor_act, 0] = p.n_arms * p.t_max_n * p.motor_force_scale
         m.dof_damping[self.motor_d] = p.motor_damping()
         k = p.joint_stiffness()
         for a in range(p.n_arms):
             for j in range(len(p.pitch_m)):
                 m.jnt_stiffness[m.joint(f"a{a}_j{j}").id] = k[j]
+
+    def set_degradation(self, force_scale, stretch_m):
+        """Degraded actuation at run time: motor force (and no-load speed) scale, tendon elongation; spine unchanged."""
+        m, p = self.model, self.p
+        p.motor_force_scale, p.cable_stretch_m = float(force_scale), float(stretch_m)
+        m.actuator_gear[self.motor_act, 0] = p.n_arms * p.t_max_n * p.motor_force_scale
+        for a in range(p.n_arms):
+            m.tendon_range[m.tendon(f"cable{a}").id] = [-p.cable_stretch_m, p.cable_slack_m]   # pull side shifts
 
     def set_parcel(self, sides, mass):
         """Resize the parcel box (half sides) and set mass and inertia consistently."""

@@ -60,7 +60,7 @@ class CatchParamEnv2(gym.Env):
         if "size" in self.sensors:
             out[13] = 10 * (np.max(e.throw["sides"]) + rng.normal(0, 0.005))
         if "encoder" in self.sensors:
-            out[14] = 4 * e.p.close_speed_mps * (1 + rng.normal(0, 0.03))
+            out[14] = 4 * e.p.close_speed_mps * e.p.motor_force_scale * (1 + rng.normal(0, 0.03))
         if "ft" in self.sensors and stage == 1 and e.t_contact is not None:
             k0 = int(round(e.t_contact * e.p.control_hz)) - 1
             f = np.mean(e.f_hist[k0:k0 + max(1, int(round(self.ft_window * e.p.control_hz)))])

@@ -1,0 +1,40 @@
+{
+ "name": "hi2_deg",
+ "sensors": "size,encoder",
+ "two_step": false,
+ "envs": 16,
+ "steps": 100000,
+ "eval_every": 10000,
+ "student": "dagger_theta_deg",
+ "overrides": "{\"outward_limit_deg\": 0, \"pad_stroke_m\": 0.05, \"housing_m\": 0.10, \"pad_c\": 40, \"wrist_stroke_m\": 0.10, \"wrist_c\": 80, \"wrist_k\": 150, \"box_mass_kg\": [0.1, 0.8], \"flight_s\": [0.45, 0.8]}",
+ "randomize": "{\"close_speed_mps\": [0.03, 0.25], \"motor_force_scale\": [0.5, 1.0], \"cable_stretch_m\": [0.0, 0.004], \"aim_noise_m\": [0.06, 0.2]}",
+ "seed": 0,
+ "weights": {
+  "acc_g": 0.01,
+  "force": 0.0025,
+  "tcp": 0.001,
+  "drop": 0.5
+ },
+ "ranges": {
+  "ratio": [
+   0.35,
+   2.5
+  ],
+  "absorb": [
+   0.0,
+   0.6
+  ],
+  "brake_time": [
+   0.0,
+   0.6
+  ],
+  "turn_gain": [
+   0.0,
+   8.0
+  ],
+  "motor_hold": [
+   0.5,
+   1.0
+  ]
+ }
+}

@@ -74,8 +74,8 @@ def adaptive_rule(**kw):
     from catch.env import closing_time
 
     def pol(obs, env):
-        v = env.env.p.close_speed_mps * (1 + env.rng_s.normal(0, 0.03))
-        k = dict(kw, ratio=min(0.95, kw["ratio"] * closing_time(v) / closing_time(0.25)))
+        v = env.env.p.close_speed_mps * env.env.p.motor_force_scale * (1 + env.rng_s.normal(0, 0.03))
+        k = dict(kw, ratio=min(theta2.RANGES["ratio"][1], kw["ratio"] * closing_time(v) / closing_time(0.25)))
         return theta2.from_kwargs(**k)
     return pol
 

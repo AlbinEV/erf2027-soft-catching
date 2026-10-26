@@ -32,6 +32,7 @@ class Teacher:
     def __init__(self, env, t_close=0.19, ratio=0.45, depth=0.02, absorb=0.4, kp=12.0, kr=10.0,
                  v_budget=0.5, lateral_max=0.05, source="true", turn_up=False, kup=4.0, absorb_time=0.15,
                  brake_time=0.0, motor_hold=1.0, absorb_lead=0.0, absorb_ramp=0.0, close_cmd=1.0, turn_gain=0.0):
+        t_close = env.t_close_true if t_close is None else t_close     # None: true closing time (degraded hand)
         self.env, self.t_close, self.ratio, self.depth, self.absorb = env, t_close, ratio, depth, absorb
         self.lateral_max, self.source, self.turn_up, self.kup = lateral_max, source, turn_up, kup
         self.absorb_time, self.brake_time, self.motor_hold = absorb_time, brake_time, motor_hold

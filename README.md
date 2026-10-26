@@ -17,6 +17,7 @@ commands and as a supervisor that chooses the catch parameters for each throw.
 | `scripts/` | Training (DAgger, PPO), evaluation, statistics and figure scripts |
 | `runs/` | Trained policies, training curves and all evaluation results (JSON), plus the shell scripts used to launch the campaigns |
 | `figures/` | Figures of the paper (Italian and English labels) |
+| `docs/technical_details.md` | Model and test parameters, trained networks and the supplementary tables cited by the paper |
 | `requirements.txt` | Exact package versions used |
 
 Not included: the DAgger training datasets (about 0.5 GB) and TensorBoard logs; they can be regenerated with the
@@ -41,6 +42,16 @@ Quick check (10 test throws, teacher and camera-only student; about 1 minute):
 ```
 
 The simulation is deterministic: every result below can be recomputed exactly from its seeds.
+
+## Model options
+
+Besides the parameters of the first study, `catch/config.py` sets: `outward_limit_deg` (dorsal stops), `pad_*` and
+`wrist_*` (compliant palm and wrist), `motor_force_scale` and `cable_stretch_m` (degraded actuation), `cam_model:
+"pinhole"` with `cam_pos_m`, `cam_pos_random`, `cam2_pos_m`, `cam_fov_deg`, `cam_depth_k`, `cam_calib_m`,
+`cam_calib_deg` and `cam_occlusion` (realistic camera), `release_polar` (varied throws), `air_cd` (air drag),
+`kf_meas_std` and `kf_acc_std` (Kalman filter of the classical pipeline). The defaults reproduce the first study.
+The environment variables `CATCH_RATIO_MAX` and `CATCH_EXECUTOR` set the closing-ratio range of the catch parameters
+and the executor of the fixed and encoder rules in `scripts/eval_high2.py`.
 
 ## Evaluation protocol
 
@@ -69,7 +80,14 @@ between methods are paired on the same throws (95 % interval and exact McNemar t
 | Matched comparison of rules and supervisors | `bash runs/eval_v2_final.sh P`; seeds: `runs/chain_2026-10-19_day.sh`, `runs/chain_2026-10-19_ft.sh` | `runs/eval_v2_final.json`, `runs/eval_v2_seed1.json`, `runs/eval_v2_seed23.json` |
 | Rule distilled from the supervisor | `bash runs/distilled_rule.sh P` | `runs/eval_v2_distilled.json` |
 | Paired differences | `scripts/paired_stats.py runs/eval_v2_final.json --a rl:hi2_cse --b 'fixed:{"ratio":0.45'` | printed table |
-| Figures | `scripts/paper_figures.py`, `scripts/fig_braccio.py`, `scripts/fig_funzionamento.py` (needs an OpenGL display, `MUJOCO_GL=glfw`) | `figures/` |
+| Designed hand (dorsal stops at 0°, palm 40 N s/m, wrist stroke 10 cm): methods, parcel shapes, dorsal-stop angle, closing time | `bash runs/chain_2026-10-19_proto.sh` to `runs/chain_2026-10-19_proto5.sh`; dorsal stops on the first hand: `runs/chain_2026-10-19_gaps.sh` | `runs/proto*/`, `runs/gaps/`, `runs/dagger_proto/` |
+| Damper loads, linear and quadratic dampers | `scripts/damper_study.py P` | `runs/dampers/` |
+| Closing time of the designed hand with degraded actuation | `scripts/closing_times_deg.py P` | `runs/closing_times_deg.json` |
+| Degraded actuation (motor speed, supply voltage, tendon elongation): executor, supervisors, students | `bash runs/chain_2026-10-19_night.sh` (parts 1 and 4) | `runs/night/deg/`, `runs/dagger_theta_deg/`, `runs/hi2_deg/`, `runs/hi2_deg_s1/`, `runs/dagger_proto_deg/` |
+| Realistic camera and camera placement | `bash runs/chain_2026-10-19_night.sh` (part 2), `bash runs/chain_2026-10-19_night2.sh` | `runs/night/cam/`, `runs/night/campos/`, `runs/dagger_proto_cam*/`, `runs/dagger_proto_campos*/` |
+| Varied throws, with the ideal and the realistic camera | `bash runs/chain_2026-10-19_night.sh` (part 3), `runs/chain_2026-10-19_night3.sh`, `runs/chain_2026-10-19_night4.sh` | `runs/night/wide/`, `runs/night/widecam/`, `runs/dagger_proto_wide*/`, `runs/dagger_proto_all*/` |
+| Exploratory runs: parcel mass, robot speed, friction, second camera, air drag, wrist stiffness, Kalman filter tuning of the classical pipeline | `bash runs/chain_2026-10-20_explore.sh` to `runs/chain_2026-10-20_explore8.sh` | `runs/explore/` |
+| Figures | `scripts/paper_figures.py`, `scripts/fig_braccio.py`, `scripts/fig_funzionamento.py`, `scripts/fig_generalizzazione.py` (needs an OpenGL display, `MUJOCO_GL=glfw`) | `figures/` |
 
 Run directories and results that are not cited above (for example `runs/sa_v1`, `runs/hi2_soft`, `runs/dagger_T40`)
 are exploratory runs kept for completeness.

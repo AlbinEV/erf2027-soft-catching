@@ -50,6 +50,8 @@ class Params:
     series_stiffness: float = 10000.0       # N/m per cable
     series_damping: float = 50.0
     cable_slack_m: float = 0.002
+    motor_force_scale: float = 1.0          # degradation study (19 Oct): motor force and no-load speed scale together
+    cable_stretch_m: float = 0.0            # degradation study: tendon elongation, taken up by the motor before it pulls
     joint_damping: float = 0.01
     joint_armature: float = 2e-6
     hand_friction: float = 0.8
@@ -67,6 +69,8 @@ class Params:
     release_x: tuple = (1.8, 2.6)
     release_y: tuple = (-0.4, 0.4)
     release_z: tuple = (1.1, 1.6)
+    release_polar: tuple = ()               # (r_min, r_max, az_min_deg, az_max_deg): release at horizontal distance r
+                                            # from the aim point and azimuth az (0 = in front, +x) instead of release_x/y
     aim_dz: float = 0.30                    # the operator aims at the hand in the ready pose: (0.45, 0, base + 0.30)
     flight_s: tuple = (0.50, 0.80)
     aim_noise_m: float = 0.12               # operator inaccuracy, standard deviation per axis
@@ -76,6 +80,23 @@ class Params:
     cam_latency_s: float = 0.033
     cam_noise_m: float = 0.005
     cam_dropout: float = 0.02
+    cam_model: str = "ideal"              # "ideal": parcel centre seen everywhere; "pinhole": camera with position, field
+                                            # of view, occlusion by robot and hand, depth noise growing with distance
+    cam_pos_m: tuple = (-0.3, -0.6, 2.0)    # pinhole camera (assumption): raised behind the robot, looking at the throws
+    cam_target_m: tuple = (1.2, 0.0, 1.3)
+    cam_fov_deg: tuple = (87.0, 58.0)       # horizontal, vertical (typical stereo depth camera)
+    cam_range_m: tuple = (0.3, 6.0)
+    cam_depth_k: float = 0.0025             # pinhole: axial noise std = cam_noise_m + k * z^2 (z in m)
+    cam_calib_m: float = 0.0                # pinhole: calibration offset, fixed per throw, random direction (m)
+    cam_calib_deg: float = 0.0              # pinhole: camera rotation error, fixed per throw, random axis (deg)
+    cam_occlusion: bool = True              # pinhole: frame lost when a robot or hand geom hides the parcel centre
+    cam_pos_random: tuple = ()              # pinhole: (x0, x1, |y|0, |y|1, z0, z1) camera position drawn per throw,
+                                            # on a random side of the throwing lane, looking at cam_target_m
+    cam2_pos_m: tuple = ()                  # pinhole: second camera (same target, own calibration error); the
+                                            # measurements of the cameras that see the parcel are averaged
+    air_cd: float = 0.0                     # parcel drag coefficient (0: no air); the operator aims allowing for it
+    kf_meas_std: float = 0.0                # Kalman filter tuning: measurement std (m); 0 = from the camera model
+    kf_acc_std: float = 0.5                 # Kalman filter tuning: process noise (unmodelled acceleration, m/s^2)
     # --- simulation ------------------------------------------------------------------------------------------------------
     dt_s: float = 0.001
     control_hz: float = 100.0

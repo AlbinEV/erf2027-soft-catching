@@ -1,0 +1,12 @@
+{
+ "name": "dagger_proto_wide_s1",
+ "procs": 14,
+ "teacher_episodes": 1500,
+ "episodes": 600,
+ "iters": 15,
+ "epochs": 15,
+ "seed": 1,
+ "randomize": "{}",
+ "overrides": "{\"outward_limit_deg\": 0, \"pad_stroke_m\": 0.05, \"housing_m\": 0.10, \"pad_c\": 40, \"wrist_stroke_m\": 0.10, \"wrist_c\": 80, \"wrist_k\": 150, \"release_polar\": [1.0, 4.0, -45.0, 45.0], \"flight_s\": [0.3, 1.0]}",
+ "teacher": "{}"
+}

@@ -60,7 +60,10 @@ def episode(job):
                 inside=bool(env.was_inside), max_force=float(info["max_force"]), touched_ur=bool(info["touched_ur"]),
                 max_acc_g=float(info["max_acc_g"]), max_tcp_acc=float(info["max_tcp_acc"]),
                 t=float(info["t"]), aim_err=float(np.linalg.norm(th["aim"] - aim0)), speed=float(np.linalg.norm(th["v0"])),
-                mass=float(th["mass"]), side=float(np.max(th["sides"])))
+                mass=float(th["mass"]), side=float(np.max(th["sides"])), T=float(th["T"]),
+                release_r=float(np.linalg.norm(th["p0"][:2] - aim0[:2])),
+                release_az=float(np.degrees(np.arctan2(th["p0"][1] - aim0[1], th["p0"][0] - aim0[0]))),
+                frames_lost=int(getattr(env, "frames_lost", 0)), frames=int(getattr(env, "frames_total", 0)))
 
 
 def wilson(k, n, z=1.96):

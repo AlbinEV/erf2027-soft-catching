@@ -33,6 +33,31 @@ _CT_T = np.array([2.189, 0.78, 0.409, 0.265, 0.192])
 def closing_time(v):
     return float(np.exp(np.interp(np.log(v), np.log(_CT_V), np.log(_CT_T))))
 
+
+_CT_DEG = {}
+
+
+def closing_time_true(p):
+    """Closing time to 95 % of the corner stops. For the designed hand (dorsal stops at 0 deg) interpolated in
+    runs/closing_times_deg.json (scripts/closing_times_deg.py) over motor speed, force scale and tendon elongation;
+    otherwise the nominal table of the paper's hand (closing_time)."""
+    from pathlib import Path
+    table = Path(__file__).resolve().parents[1] / "runs" / "closing_times_deg.json"
+    if p.outward_limit_deg != 0 or not table.exists():
+        return closing_time(p.close_speed_mps)
+    if not _CT_DEG:
+        import json
+        from scipy.interpolate import RegularGridInterpolator
+        d = json.loads(table.read_text())
+        V, S, L = (np.array(d[k], float) for k in ("speeds", "scales", "stretches"))
+        T = np.minimum(np.array(d["t95"], float), 3.0)
+        _CT_DEG["f"] = RegularGridInterpolator((np.log(V), S, L), np.log(T))
+        _CT_DEG["lim"] = (V, S, L)
+    V, S, L = _CT_DEG["lim"]
+    x = (np.log(np.clip(p.close_speed_mps, V.min(), V.max())), np.clip(p.motor_force_scale, S.min(), S.max()),
+         np.clip(p.cable_stretch_m, L.min(), L.max()))
+    return float(np.exp(_CT_DEG["f"](np.array([x], float))[0]))
+
 Q_READY = np.array([0.398, -1.628, -2.487, -1.342, -1.293, 1.281])  # palm at (0.45, 0, base + 0.30), axis (1, 0, 1)
 G = np.array([0.0, 0.0, -9.81])
 R = dict(success=10.0, drop=2.0, approach=1.0, contact_ur=0.5, force=0.002, action=1e-3)
@@ -59,6 +84,11 @@ class CatchEnv(gym.Env):
         self.n_sub = int(round(1.0 / (p.control_hz * p.dt_s)))
         self.dt_c = 1.0 / p.control_hz
         self.lead = 400.0 / 2000.0                     # kv / kp of the Menagerie UR5e servos
+        if p.cam_model == "pinhole":
+            self._set_camera(p.cam_pos_m)
+            if len(p.cam2_pos_m):
+                self.cam2_p, self.cam2_R = self._cam_frame(p.cam2_pos_m)
+        self.frames_lost = self.frames_total = 0
         self.observation_space = gym.spaces.Box(-np.inf, np.inf, (62,), np.float32)
         self.action_space = gym.spaces.Box(-1.0, 1.0, (7,), np.float32)
 
@@ -107,12 +137,57 @@ class CatchEnv(gym.Env):
         return fmax, ur, floor
 
     # --- camera ----------------------------------------------------------------------------------------------------------
+    def _cam_frame(self, pos):
+        """Pinhole camera at pos looking at cam_target_m; camera frame: z along the optical axis, x right, y down."""
+        zc = np.asarray(self.p.cam_target_m, float) - np.asarray(pos, float)
+        zc /= np.linalg.norm(zc)
+        xc = np.cross(zc, [0.0, 0.0, 1.0])
+        xc /= np.linalg.norm(xc)
+        return np.asarray(pos, float), np.column_stack((xc, np.cross(zc, xc), zc))
+
+    def _set_camera(self, pos):
+        self.cam_p, self.cam_R = self._cam_frame(pos)
+
+    def _cam_visible(self, pos, cp=None, cR=None):
+        """Pinhole camera: parcel centre inside the field of view and range, and not hidden by robot or hand."""
+        p = self.p
+        cp, cR = (self.cam_p, self.cam_R) if cp is None else (cp, cR)
+        rel = pos - cp
+        c = cR.T @ rel
+        dist = float(np.linalg.norm(rel))
+        if c[2] <= 0 or not (p.cam_range_m[0] <= dist <= p.cam_range_m[1]):
+            return False
+        if (np.degrees(np.arctan2(abs(c[0]), c[2])) > p.cam_fov_deg[0] / 2
+                or np.degrees(np.arctan2(abs(c[1]), c[2])) > p.cam_fov_deg[1] / 2):
+            return False
+        if p.cam_occlusion:
+            gid = np.array([-1], dtype=np.int32)
+            hit = mujoco.mj_ray(self.m, self.d, cp, rel / dist, None, 1, -1, gid)
+            if gid[0] >= 0 and gid[0] != self.cm.parcel_geom and hit < dist - 0.5 * float(np.min(self.throw["sides"])):
+                return False
+        return True
+
     def _camera_update(self):
         p, t = self.p, self.t
         if self.next_frame <= t + 1e-9:                 # frame captured now (60 Hz camera sampled at the control rate)
             pos = self.d.qpos[self.cm.parcel_q:self.cm.parcel_q + 3]
             ok = self.rng.random() > p.cam_dropout
-            meas = pos + self.rng.normal(0, p.cam_noise_m, 3) if ok else None
+            if p.cam_model == "pinhole":
+                cams = [(self.cam_p, self.cam_R, self.cam_err_R, self.cam_err_t)]
+                if len(p.cam2_pos_m):
+                    cams.append((self.cam2_p, self.cam2_R, self.cam2_err_R, self.cam2_err_t))
+                ms = []
+                for cp, cR, eR, et in (cams if ok else []):
+                    if self._cam_visible(pos, cp, cR):
+                        rel = pos - cp
+                        z = float(rel @ cR[:, 2])
+                        sd = np.array([p.cam_noise_m, p.cam_noise_m, p.cam_noise_m + p.cam_depth_k * z * z])
+                        ms.append(cp + eR @ rel + et + cR @ (sd * self.rng.normal(size=3)))
+                meas = np.mean(ms, axis=0) if ms else None
+            else:
+                meas = pos + self.rng.normal(0, p.cam_noise_m, 3) if ok else None
+            self.frames_total += 1
+            self.frames_lost += int(meas is None)
             self.pending.append((t, t + p.cam_latency_s, meas))
             self.next_frame += 1.0 / p.cam_rate_hz
         while self.pending and self.pending[0][1] <= t + 1e-9:
@@ -148,9 +223,25 @@ class CatchEnv(gym.Env):
             sides = np.array(p.box_dims_m, dtype=float)
         mass = rng.uniform(*p.box_mass_kg)
         p0 = np.array([rng.uniform(*p.release_x), rng.uniform(*p.release_y), rng.uniform(*p.release_z)])
+        if len(p.release_polar):                # release around the aim point (wide-throw study, 19 Oct)
+            r0, r1, a0, a1 = p.release_polar
+            r, az = rng.uniform(r0, r1), np.radians(rng.uniform(a0, a1))
+            p0 = np.array([0.45 + r * np.cos(az), r * np.sin(az), rng.uniform(*p.release_z)])
         aim = np.array([0.45, 0.0, p.base_height_m + p.aim_dz]) + rng.normal(0, p.aim_noise_m, 3)
         T = rng.uniform(*p.flight_s)
         v0 = (aim - p0 - 0.5 * G * T ** 2) / T
+        if p.air_cd > 0:                        # the operator aims allowing for the drag (shooting on a point mass)
+            kd = 0.6 * p.air_cd * (sides[0] * sides[1] + sides[1] * sides[2] + sides[0] * sides[2]) / 3 / mass
+            n = int(round(T / 0.002))
+            for _ in range(10):
+                x, v = p0.copy(), v0.copy()
+                for _k in range(n):
+                    v = v + (G - kd * np.linalg.norm(v) * v) * 0.002
+                    x = x + v * 0.002
+                err = aim - x
+                v0 = v0 + err / T
+                if np.linalg.norm(err) < 5e-4:
+                    break
         axis = rng.normal(size=3)
         w0 = rng.uniform(0, p.spin_max) * axis / np.linalg.norm(axis)
         return dict(sides=sides, mass=mass, p0=p0, v0=v0, w0=w0, q0=random_quat(rng), aim=aim, T=T)
@@ -163,11 +254,15 @@ class CatchEnv(gym.Env):
             setattr(p, k, float(self.rng.uniform(lo, hi)))
         if "close_speed_mps" in self.randomize or "t_max_n" in self.randomize:
             self.cm.set_hand(p.t_max_n, p.close_speed_mps)
-        self.t_close_true = closing_time(p.close_speed_mps)
+        if "motor_force_scale" in self.randomize or "cable_stretch_m" in self.randomize:
+            self.cm.set_degradation(p.motor_force_scale, p.cable_stretch_m)
+        self.t_close_true = closing_time_true(p)
         th = (options or {}).get("throw") or self.sample_throw(self.rng)
         self.throw = th
         mujoco.mj_resetData(m, d)
         cm.set_parcel(th["sides"], th["mass"])
+        s = th["sides"]
+        self.drag_c = 0.6 * p.air_cd * (s[0] * s[1] + s[1] * s[2] + s[0] * s[2]) / 3   # 0.5 rho Cd A, rho 1.2 kg/m^3
         q0 = Q_READY + self.rng.normal(0, 0.02, 6)
         d.qpos[cm.ur_q] = q0
         d.ctrl[cm.ur_act] = q0
@@ -183,7 +278,30 @@ class CatchEnv(gym.Env):
         mujoco.mj_forward(m, d)
         self.t, self.steps = 0.0, 0
         self.next_frame, self.pending, self.frames = 0.0, [], []
-        self.kf = BallisticKF(meas_std=p.cam_noise_m)
+        self.frames_lost = self.frames_total = 0
+        if p.cam_model == "pinhole":                  # calibration error fixed for the throw, drawn after the throw
+            ax = self.rng.normal(size=3)
+            ax /= np.linalg.norm(ax)
+            ang = np.radians(p.cam_calib_deg)
+            K = np.array([[0, -ax[2], ax[1]], [ax[2], 0, -ax[0]], [-ax[1], ax[0], 0]])
+            self.cam_err_R = np.eye(3) + np.sin(ang) * K + (1 - np.cos(ang)) * K @ K
+            off = self.rng.normal(size=3)
+            self.cam_err_t = p.cam_calib_m * off / np.linalg.norm(off)
+            self.kf = BallisticKF(meas_std=p.kf_meas_std or (p.cam_noise_m + 4.0 * p.cam_depth_k),  # tuned for 2 m
+                                  acc_std=p.kf_acc_std)
+            if len(p.cam_pos_random):                  # camera placement drawn per throw (after the calibration)
+                x0, x1, y0, y1, z0, z1 = p.cam_pos_random
+                side = 1.0 if self.rng.random() < 0.5 else -1.0
+                self._set_camera([self.rng.uniform(x0, x1), side * self.rng.uniform(y0, y1), self.rng.uniform(z0, z1)])
+            if len(p.cam2_pos_m):                     # calibration error of the second camera
+                ax = self.rng.normal(size=3)
+                ax /= np.linalg.norm(ax)
+                K = np.array([[0, -ax[2], ax[1]], [ax[2], 0, -ax[0]], [-ax[1], ax[0], 0]])
+                self.cam2_err_R = np.eye(3) + np.sin(ang) * K + (1 - np.cos(ang)) * K @ K
+                off = self.rng.normal(size=3)
+                self.cam2_err_t = p.cam_calib_m * off / np.linalg.norm(off)
+        else:
+            self.kf = BallisticKF(meas_std=p.kf_meas_std or p.cam_noise_m, acc_std=p.kf_acc_std)
         self._camera_update()
         self.last_action = np.zeros(7)
         self.held_s, self.max_force, self.touched_ur, self.was_inside = 0.0, 0.0, False, False
@@ -215,6 +333,9 @@ class CatchEnv(gym.Env):
         for _ in range(self.n_sub):
             if self.substep_hook is not None:
                 self.substep_hook(self)
+            if self.p.air_cd > 0:                       # quadratic drag on the parcel centre
+                v = self.d.qvel[self.cm.parcel_d:self.cm.parcel_d + 3]
+                self.d.xfrc_applied[self.cm.parcel_body, :3] = -self.drag_c * np.linalg.norm(v) * v
             mujoco.mj_step(self.m, self.d)
             f, u, fl = self.contacts()
             fmax, ur, floor = max(fmax, f), ur or u, floor or fl
